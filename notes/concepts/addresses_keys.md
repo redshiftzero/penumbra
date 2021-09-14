@@ -1,14 +1,32 @@
 # Addresses and Keys
 
-Note: this initial description describes the basic design without Fuzzy Message Detection, which will be added in a future iteration.
+The key hierarchy is based on the [Zcash Sapling](https://github.com/zcash/zips/blob/main/protocol/sapling.pdf) design, which we briefly summarize here.
 
-The basic key hierarchy is as in [Zcash Sapling](https://github.com/zcash/zips/blob/main/protocol/sapling.pdf), which we summarize here.
+All addresses and keys are ultimately derived from a secret *spending key* $sk$, which is a 32-byte random number. From this *spending key* $sk$, we can derive:
 
-All addresses and keys are ultimately derived from a *spending key* $sk$. From the *spending key* $sk$, we derive:
-
+* an expanded form of the spending key called the *expanded spending key* which has components used to derive *viewing keys* and the *proof authorizion key* as described below,
 * *viewing keys* which allow the holder to identify but not spend notes associated with the *spending key*,
 * *diversified payment addresses*, which can be shared in order to receive payments,
-* a *proof authorization key*, which lets the holder spend keys associated with the *spending key*.
+* a *proof authorization key*, which lets the holder spend notes associated with the *spending key*.
+
+We describe each of these keys in more detail below.
+
+## Expanded Spending Keys
+
+The *expanded spending key* has three components:
+
+* $ask$, the *spend authorization key* which is a scalar value
+* $nsk$, the *nullifier private key* which is a scalar value
+* $ovk$, the *outgoing viewing key* which is a 32-byte number
+
+The scalars are derived by hashing $sk$ along with a value $t$ ($t=0$ for $ask$, $t=1$ for $nsk$, $t=2$ for $ovk$), then mapping to a scalar for the decaf377 curve.
+
+TODO: Define $ToScalar$ function for decaf377
+TODO: Confirm $PRF^{expand}_{sk}$ is unchanged from Zcash sapling (using Blake2b)
+
+TK: once TODOs done, write out exactly these functions
+
+TK: FMD flag key goes in here derived from $sk$?
 
 ## Viewing Keys
 
