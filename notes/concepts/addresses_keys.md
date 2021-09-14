@@ -17,28 +17,42 @@ The *expanded spending key* has three components:
 
 * $ask$, the *spend authorization key* which is a scalar value
 * $nsk$, the *nullifier private key* which is a scalar value
-* $ovk$, the *outgoing viewing key* which is a 32-byte number
+* $ovk$, the *outgoing viewing key* which is a 32 byte number
 
 The scalars are derived by hashing $sk$ along with a value $t$ ($t=0$ for $ask$, $t=1$ for $nsk$, $t=2$ for $ovk$), then mapping to a scalar for the decaf377 curve.
 
 TODO: Define $ToScalar$ function for decaf377
 TODO: Confirm $PRF^{expand}_{sk}$ is unchanged from Zcash sapling (using Blake2b)
 
-TK: once TODOs done, write out exactly these functions
-
 TK: FMD flag key goes in here derived from $sk$?
 
 ## Viewing Keys
 
-TK
+A *full viewing key* enables one to identify incoming and outgoing notes only. It consists of three components:
+
+* $ak$, the *authorization key*, a point on the `decaf377` curve, derived from multiplying $ask$ by a fixed generator point on `decaf377`
+* $nk$, the *nullifier deriving key*, used for deriving nullifiers for notes, derived from multiplying $nsk$ by a fixed generator point on `decaf377`
+* $ovk$, the *outgoing viewing key*, defined as above in `Expanded Spending Keys`
+
+An *incoming viewing key* $ivk$ is derived from hashing $ak$ and $nk$.
+
+TODO: Confirm $CRH^{ivk}$ unchanged from Sapling
 
 ## Addresses
 
-Addresses in Penumbra are diversified payment addresses as in Zcash Sapling: for each *spending key*, there are many possible payment addresses. Each address consists of a *diversifier* $d$ as well as a *transmission key* $pk_d$.
+Addresses in Penumbra are diversified payment addresses as in Zcash Sapling: for each *spending key*, there are many possible payment addresses. Each address consists of:
+
+* a *diversifier* $d$, an 11 byte random number
+* a *transmission key* $pk_d$, a point on the `decaf377` curve
 
 ## Proof Authorization Keys
 
-TK
+The *proof authorizing key* has two components:
+
+* $ak$, the *authorization key*, as defined above in `Viewing Keys`
+* $nsk$, the *nullifier private key*, as defined above in `Expanded Spending Keys`
+
+To spend notes, you must prove knowledge of $ak$, $nsk$, and $ask$.
 
 # Implementation Notes
 
