@@ -10,6 +10,8 @@ services:
     command: pd start --host 0.0.0.0 --database-uri
       postgres://postgres:postgres@db/penumbra
     restart: on-failure
+    # depends_on:
+    #   - tendermint-node0
     networks:
       localnet:
         ipv4_address: 192.167.10.6
@@ -20,7 +22,7 @@ services:
 
   # The Tendermint node
   tendermint-node0:
-    image: "tendermint/tendermint:latest"
+    image: "tendermint/tendermint:v0.35.0"
     container_name: tendermint-node0
     ports:
       - "26656:26656"
