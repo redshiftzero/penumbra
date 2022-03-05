@@ -20,19 +20,6 @@
       "nullable": []
     }
   },
-  "0c6a89db4de3642914e3cddf6e08a042eac9b140a03118943170433527ef5cc3": {
-    "query": "INSERT INTO nullifiers VALUES ($1, $2)",
-    "describe": {
-      "columns": [],
-      "parameters": {
-        "Left": [
-          "Bytea",
-          "Int8"
-        ]
-      },
-      "nullable": []
-    }
-  },
   "1329be38905d802df374dc416fd0ce36d0b556af2d3d07d6248722b7025bfe3d": {
     "query": "SELECT identity_key, epoch, validator_reward_rate, validator_exchange_rate\n            FROM validator_rates\n            WHERE epoch = (SELECT MAX(epoch) from base_rates)",
     "describe": {
