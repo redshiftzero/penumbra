@@ -147,6 +147,7 @@ impl Worker {
         // Note that errors cannot be handled in InitChain, the application must crash.
         let app_state: genesis::AppState = serde_json::from_slice(&init_chain.app_state_bytes)
             .expect("can parse app_state in genesis file");
+        panic!("woahhh some crazy stuff in genesis file that crashes the app!");
 
         // Initialize the database with the app state.
         let app_hash = self.state.commit_genesis(&app_state).await?;
