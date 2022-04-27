@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   smoke_test:
-    runs-on: buildjet-16vcpu-ubuntu-2004
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -13,9 +13,8 @@ jobs:
 
       - name: Build the testnet.
         run: |
-          mkdir ~/scratch
           ./scripts/docker_compose_freshstart.sh
-          chmod -R 777 ~/.penumbra/testnet_build
+          chmod -R 777 ~/.penumbra/testnet_data
           docker-compose build
 
       - name: Run testnet for smoke test duration.
